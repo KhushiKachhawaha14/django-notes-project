@@ -29,15 +29,18 @@ jobs:
         pip install -r requirements.txt
         # Install testing dependencies like flake8
         pip install flake8
+      working-directory: ./
 
     - name: 4. Run Linters (Code Quality Check)
       run: flake8 .
+      working-directory: ./
 
     - name: 5. Run Unit Tests (using sqlite for CI speed)
       env:
         # Use simple environment variables for CI database (defaults to sqlite in settings)
         SECRET_KEY: ci-secret-key-temp
       run: python manage.py test
+      working-directory: ./
 
   # --- Deployment Job (CD) - Uncomment and configure when ready ---
   # deploy:
