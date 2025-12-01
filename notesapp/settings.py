@@ -140,10 +140,12 @@ STATIC_URL = 'static/'
 #     BASE_DIR / 'mynotes/build/static'
 # ]
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'mynotes/build/static')]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+# settings.py (After fix)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'notesapp/static'),
+    os.path.join(BASE_DIR, 'frontend/build/static'), # Lines can exceed 79 chars inside brackets
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
