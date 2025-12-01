@@ -16,11 +16,38 @@
 
 # misc
 .DS_Store
+
+# 🔑 DJANGO/BACKEND ADDITIONS 🔑
+
+# 1. Environment Variables (Critical for Step 8)
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# 2. Database Artifacts (Crucial to fix "mysql.sock" error)
+# Exclude the entire volume directory used by the PostgreSQL service (Phase 2)
+postgres_data/
+
+# Exclude volume directory from old MySQL setup (if it exists)
+data/
+
+# Exclude SQLite database file (if used locally)
+db.sqlite3
+
+# Exclude Unix sockets and ephemeral files
+*.sock
+*.pid
+
+# 3. Python/Django Artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
+htmlcov/
+.dockerignore # Ignore the .dockerignore file itself
+
+# npm artifacts (Existing)
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
