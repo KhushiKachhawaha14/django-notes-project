@@ -1,5 +1,16 @@
+# api/urls.py
+
 from django.urls import path
-from .views import *
+
+# Fix F403/F405: Import all used functions explicitly
+from .views import (
+    getRoutes,
+    getNotes,
+    updateNote,
+    deleteNote,
+    createNote,
+    getNote
+)
 
 urlpatterns = [
     path('', getRoutes, name="routes"),
