@@ -1,0 +1,65 @@
+# .github/workflows/main.yml
+
+name: Django CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 1. Checkout Code
+      uses: actions/checkout@v4
+
+    - name: 2. Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9' # Use the Python version defined in your Dockerfile
+
+    - name: 3. Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        # Install testing dependencies like flake8
+        pip install flake8
+
+    - name: 4. Run Linters (Code Quality Check)
+      run: flake8 .
+
+    - name: 5. Run Unit Tests (using sqlite for CI speed)
+      env:
+        # Use simple environment variables for CI database (defaults to sqlite in settings)
+        SECRET_KEY: ci-secret-key-temp
+      run: python manage.py test
+
+  # --- Deployment Job (CD) - Uncomment and configure when ready ---
+  # deploy:
+  #   needs: build_and_test
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 6. Build and Push Docker Image
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_PASSWORD }}
+  #     - run: docker build -t yourusername/django-notes-app:latest .
+  #     - run: docker push yourusername/django-notes-app:latest
+      
+  #     - name: 7. Deploy to Production Server (SSH Example)
+  #       uses: appleboy/ssh-action@v1.0.3
+  #       with:
+  #         host: ${{ secrets.SSH_HOST }}
+  #         username: ${{ secrets.SSH_USER }}
+  #         key: ${{ secrets.SSH_KEY }}
+  #         script: |
+  #           cd /path/to/your/app
+  #           docker-compose pull
+  #           docker-compose up -d
