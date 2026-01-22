@@ -38,12 +38,16 @@ resource "docker_container" "db" {
 }
 
 # 3. Django Backend Container
+resource "docker_image" "django_app" {
+  name = "django-notes-app:latest" # This must match your 'docker build -t' name
+}
+
+# Now the container can reference it
 resource "docker_container" "backend" {
   name  = "django_backend"
   image = docker_image.django_app.image_id
   networks_advanced { name = docker_network.app_network.name }
   
-  # Ensure the DB is fully ready before starting Django
   depends_on = [docker_container.db]
 
   ports {
