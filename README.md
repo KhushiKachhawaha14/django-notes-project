@@ -1,7 +1,7 @@
 # Full-Stack Django Deployment Pipeline
 This repository contains a production-grade deployment architecture for a Django-based full-stack application. It transitions the project from a local development environment to a highly available cloud environment using a GitOps approach.
 
-## 🌟 Key Engineering Highlights
+## 🌟 Key Engineering Highlights 🌟
 - **Infrastructure as Code (IaC)**: Used Terraform to provision immutable AWS infrastructure. This ensures that the production environment is version-controlled, repeatable, and free from "configuration drift."
 
 - **Automated CI/CD (GitOps)**: Engineered a pipeline with GitHub Actions that triggers on every push. It handles containerization with Docker, runs automated test suites, and executes deployment, reducing lead time from hours to minutes.
